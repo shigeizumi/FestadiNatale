@@ -95,16 +95,20 @@ async function get(btn){
   let data=JSON.parse(window.sessionStorage.getItem("data"));
   let row=data.map((e,index)=>{
     if(e[NoIndex]==id) return index;
-    else 0
   }).filter(e=>e!=undefined)[0]+1;
+  let startIndex=data.map((e,index)=>{
+    if(e[repIndex]==data[row-1][repIndex]) return index;
+  }).filter(e=>e!=undefined)[0];
   let length=0;
   if(btn.id.split("_")[1]=="indi") length=1;
   else length=data.filter(e=>e[repIndex]==data[row-1][repIndex]).length;
 
   const ele=document.getElementById("btnarea");
   let flg=false;
-  for(let i=0;i<length;i++) 
-    if(data[row+i-1][enterIndex]!="") flg=true;
+  if(length!=1){
+    for(let i=0;i<length;i++) 
+      if(data[startIndex+i][enterIndex]!="") flg=true;
+  }else if(data[row-1][enterIndex]!="") flg=true;
   if(flg){
     alert("既に入場済みです。");
     $('#Area').fadeOut();
@@ -131,7 +135,7 @@ async function get(btn){
       })
       
       let alertData=[];
-      for(let i=0;i<length;i++) alertData.push(`代表者名：${data[row+i-1][repIndex]} 、 券種：${data[row+i-1][typeIndex]} 、 入場時刻：${new Date(data[row+i-1][enterIndex]).toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo',})}`)
+      for(let i=0;i<length;i++) alertData.push(`代表者名：${data[startIndex+i][repIndex]} 、 券種：${data[startIndex+i][typeIndex]} 、 入場時刻：${new Date(data[startIndex+i][enterIndex]).toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo',})}`)
       alert(alertData.join("\n"));
       $('#Area').fadeOut();
       while( ele.firstChild ){
