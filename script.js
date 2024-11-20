@@ -101,15 +101,20 @@ async function get(btn){
   if(btn.id.split("_")[1]=="indi") length=1;
   else length=data.filter(e=>e[repIndex]==data[row-1][repIndex]).length;
 
+  const ele=document.getElementById("btnarea");
   let flg=false;
   for(let i=0;i<length;i++) 
     if(data[row+i-1][enterIndex]!="") flg=true;
   if(flg){
     alert("既に入場済みです。");
+    $('#Area').fadeOut();
+    while( ele.firstChild ){
+        ele.removeChild( ele.firstChild );
+    }
+    requestAnimationFrame(tick);
     return
   }
 
-  const ele=document.getElementById("btnarea");
   while( ele.firstChild ){
       ele.removeChild( ele.firstChild );
     }
@@ -120,7 +125,7 @@ async function get(btn){
           NoIndex=data[0].indexOf("No.");
           repIndex=data[0].indexOf("代表者名");
           enterIndex=data[0].indexOf("入場済み");
-          typeIndex=e[0].indexOf("券種");
+          typeIndex=data[0].indexOf("券種");
           window.sessionStorage.setItem("data",JSON.stringify(range));
           data=range;
       })
