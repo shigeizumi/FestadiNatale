@@ -135,7 +135,9 @@ async function get(btn){
       })
       
       let alertData=[];
-      for(let i=0;i<length;i++) alertData.push(`代表者名：${data[startIndex+i][repIndex]} 、 券種：${data[startIndex+i][typeIndex]} 、 入場時刻：${new Date(data[startIndex+i][enterIndex]).toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo',})}`)
+      if(length>1)
+        for(let i=0;i<length;i++) alertData.push(`代表者名：${data[startIndex+i][repIndex]} 、 券種：${data[startIndex+i][typeIndex]} 、 入場時刻：${new Date(data[startIndex+i][enterIndex]).toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo',})}`)
+      else alertData.push(`代表者名：${data[row-1][repIndex]} 、 券種：${data[row-1][typeIndex]} 、 入場時刻：${new Date(data[row-1][enterIndex]).toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo',})}`)
       alert(alertData.join("\n"));
       $('#Area').fadeOut();
       while( ele.firstChild ){
